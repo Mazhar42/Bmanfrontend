@@ -1,8 +1,15 @@
 import axios from "axios";
 import useStore from "../store/useStore";
 
+// In dev (MODE=development): use relative "/api" so Vite proxy forwards to VITE_API_URL
+// In production (MODE=production): use absolute URL so the built app can reach the backend
+const baseURL =
+  import.meta.env.MODE === "production" && import.meta.env.VITE_API_URL
+    ? `${import.meta.env.VITE_API_URL}/api`
+    : "/api";
+
 const api = axios.create({
-  baseURL: "/api",
+  baseURL,
   headers: { "Content-Type": "application/json" },
 });
 
